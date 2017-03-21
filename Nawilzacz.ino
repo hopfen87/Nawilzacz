@@ -6,7 +6,8 @@
  * network topology allowing messages to be routed to nodes.
  *
  * Created by Henrik Ekblad <henrik.ekblad@mysensors.org>
- * Copyright (C) 2013-2015 Sensnology AB
+ * Refactored and addjusted by Marcin Chmielewski <marcin.chmielewski@gmail.com>
+ * Copyright (C) 2013-2015 Sensnology AB & 2017 Hopfen87
  * Full contributor list: https://github.com/mysensors/Arduino/graphs/contributors
  *
  * Documentation: http://www.mysensors.org
@@ -20,6 +21,7 @@
  *
  * REVISION HISTORY
  * Version 1.0 - Henrik EKblad
+ * Version 1.1 - Marcin Chmielewski
  * 
  * DESCRIPTION
  * This sketch provides an example how to implement a humidity/temperature
