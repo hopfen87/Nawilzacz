@@ -71,12 +71,16 @@ float lastHum;
 boolean metric = true; 
 int speed1OldValue = -1;
 int speed2OldValue = -1;
+int lightOldValue = -1;
+int waterOldValue = -1;
 
 
 MyMessage msgHum(CHILD_ID_HUM, V_HUM);
 MyMessage msgTemp(CHILD_ID_TEMP, V_TEMP);
 MyMessage msgSpeed1(SPEED1_SENSOR_CHILD_ID, V_STATUS);
 MyMessage msgSpeed2(SPEED2_SENSOR_CHILD_ID, V_STATUS);
+MyMessage msgLight(LIGHT_SENSOR_CHILD_ID, V_PERCENTAGE);
+MyMessage msgWater(WATER_SENSOR_CHILD_ID, V_STATUS);
 
 
 void setup()  
@@ -93,6 +97,7 @@ void setup()
   }
     pinMode(SPEED1_SENSOR_PIN, INPUT_PULLUP);
     pinMode(SPEED2_SENSOR_PIN, INPUT_PULLUP);
+    pinMode(WATER_SENSOR_PIN, INPUT_PULLUP);
 
 }
 
@@ -112,6 +117,8 @@ void presentation()
 
   present(SPEED1_SENSOR_CHILD_ID, S_BINARY);
   present(SPEED2_SENSOR_CHILD_ID, S_BINARY);
+  present(LIGHT_SENSOR_CHILD_ID, S_DIMMER);
+  present(WATER_SENSOR_CHILD_ID, S_BINARY);
 }
 
 
@@ -159,6 +166,21 @@ void loop()
      send(msgSpeed2.set(speed2SensorVal==HIGH ? 1 : 0));
      speed2OldValue = speed2SensorVal;
   }
+  int waterSensorVal = digitalRead(WATER_SENSOR_PIN);
+  if (waterSensorVal != waterOldValue) {
+     // Send in the new value
+     send(msgWater.set(waterSensorVal==HIGH ? 1 : 0));
+     waterOldValue = waterSensorVal;
+  }
+  int lightSensorVal = analogRead(LIGHT_SENSOR_PIN);
+  if (lightSensorVal != lightOldValue) {
+      float percentageLigthFloat = lightSensorVal / 1023 * 100;
+      int percentageLightInt = (int) percentageLigthFloat;
+     // Send in the new value
+     send(msgLight.set(percentageLightInt));
+     lightOldValue = lightSensorVal;
+  }
+  
 }
 
 void receive(const MyMessage &message) {
